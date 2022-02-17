@@ -1,22 +1,22 @@
 {
-    "amazon": {
-        "email": "sahilchanglani@gmail.com",
-        "password": "N8()uxzsZMj$9E"
-    },
-    "facebook": {
-        "email": "sahilchanglani@gmail.com",
-        "password": "asasjhkcsakand"
-    },
-    "insta": {
-        "email": "sahilchanglani@gmail.com",
-        "password": "sajbdsak"
-    },
-    "meetgajra.com": {
-        "email": "sahilchanglani@gmail.com",
-        "password": "hdkasnkj"
-    },
-    "sasifookin.com": {
-        "email": "sahilchanglani@gmail.com",
-        "password": "M6Fy8%o%ZYkxeb"
-    }
+  "instagram": {
+    "email": "sahilchanglani@gmail.com",
+    "password": "gAAAAABiDm5jhIDJa1X4rCqELXo4KY9bJmeYw9bASeHtwUAzBlr4i44qZeveLR0L0OJ0MvKGLoAbbQm9Gkr3sjpEwSVLyl-7jw==",
+    "salt": "q4j@shq#3n$$bs75@#^&nqj%^%4!!62asdcxoyhkm3*7asdc@`~"
+  },
+  "linkedin": {
+    "email": "sahil@somaiya.edu",
+    "password": "gAAAAABiDm_2W9zVI8EFHmDTgfHhE43Ou7-bULCDDbOZoj6SpOiTYVS0bw4VALZLRieCcI_l9PWlSmR203jBVq3dkeHL6HjLjQ==",
+    "salt": "q4j@shq#3n$$bs75@#^&nqj%^%4!!62asdcxoyhkm3*7asdc@`~"
+  },
+  "Steam": {
+    "email": "SahilRocks",
+    "password": "gAAAAABiDnBx6a_Fi_l4GjRPkI5ydKU8zbUhPxGUmzp3kmCZTHQ3TY6ya4f396hHJqVbe6k9c9V9TJNy0p-tQZ9-Pf_X3gx8jA==",
+    "salt": "q4j@shq#3n$$bs75@#^&nqj%^%4!!62asdcxoyhkm3*7asdc@`~"
+  },
+  "facebook": {
+    "email": "sahilchanglani@gmail.com",
+    "password": "gAAAAABiDnNXBmHW1dj096De5jAdOm0__fvlBAD_HzI4uyfLXfLDxSBm4t27l2Lnnly2MVToinMqC4MABqGi3BLwfbxMz8tHug==",
+    "salt": "q4j@shq#3n$$bs75@#^&nqj%^%4!!62asdcxoyhkm3*7asdc@`~"
+  }
 }

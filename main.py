@@ -1,9 +1,15 @@
+import base64
 from tkinter import *
 from tkinter import messagebox
 from tkinter import simpledialog
+import user_password
 import pyperclip
 import json
 import re
+import os
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
 
 def generate_password():
@@ -29,22 +35,29 @@ def generate_password():
 
 def save():
     email = entry_email.get()
-    password = entry_password.get()
+    newPass = entry_password.get()
     website = entry_website.get()
 
-    data_dict = {
-        website: {
-            "email": email,
-            "password": password,
-        }
-    }
-
-    pyperclip.copy(password)
-
-    if email == "" or password == "" or website == "":
+    if email == "" or newPass == "" or website == "":
         messagebox.showinfo(title="Oops", message="Please don't leave any fields empty.")
 
     else:
+        master = simpledialog.askstring(title="Master Key", prompt="Enter master password:")
+
+        result = user_password.encrypt(master,newPass)
+        encrypted_password = result[0]
+        salt = result[1]
+
+        
+        data_dict = {
+            website: {
+                "email": email,
+                "password": encrypted_password,
+                "salt": salt
+            }
+        }
+
+
         try:
             with open("data.json", "r") as file:
                 data = json.load(file)
@@ -63,6 +76,7 @@ def save():
 
 def search():
     website = entry_website.get()
+
     try:
         with open("data.json", "r") as file:
             data = json.load(file)
@@ -71,9 +85,15 @@ def search():
                                                             "Add any website information and then try searching.")
     else:
         if website in data:
+            master = simpledialog.askstring(title="Master Password", prompt="Enter master password:")
             email = data[website]["email"]
             password = data[website]["password"]
-            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+            salt = data[website]["salt"]
+            decrypted_password = user_password.decrypt(password, master, salt)           
+            if decrypted_password:
+                messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {decrypted_password}")
+            else:
+                messagebox.showerror(title="Error", message=f"Master password '{master}' is wrong")
         else:
             messagebox.showerror(title="No data found", message=f"Data does not exist under '{website}' name")
 
@@ -104,6 +124,8 @@ def password_check():
         messagebox.showinfo(title='Password Strength', message=f"Password: {password}\nStrength: Medium🤓")
     else:
         messagebox.showinfo(title='Password Strength', message=f"Password: {password}\nStrength: Weak😟")
+
+
 
 
 window = Tk()
