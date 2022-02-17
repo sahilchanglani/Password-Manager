@@ -1,7 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter import simpledialog
 import pyperclip
 import json
+import re
 
 
 def generate_password():
@@ -76,6 +78,34 @@ def search():
             messagebox.showerror(title="No data found", message=f"Data does not exist under '{website}' name")
 
 
+def password_check():
+    password = entry_password.get()
+    # calculating the length
+    length_error = len(password) < 7
+
+    # searching for digits
+    digit_error = re.search(r"\d", password) is None
+
+    # searching for uppercase
+    uppercase_error = re.search(r"[A-Z]", password) is None
+
+    # searching for lowercase
+    lowercase_error = re.search(r"[a-z]", password) is None
+
+    # searching for symbols
+    symbol_error = re.search(r"\W", password) is None
+
+    # overall result
+    strong = not ( length_error or digit_error or uppercase_error or lowercase_error or symbol_error )
+    medium = not ( length_error or digit_error or uppercase_error or lowercase_error )
+    if strong:
+        messagebox.showinfo(title='Password Strength', message=f"Password: {password}\nStrength: Strong💪")
+    elif medium:
+        messagebox.showinfo(title='Password Strength', message=f"Password: {password}\nStrength: Medium🤓")
+    else:
+        messagebox.showinfo(title='Password Strength', message=f"Password: {password}\nStrength: Weak😟")
+
+
 window = Tk()
 window.title("Password Manager")
 window.config(padx=50, pady=50)
@@ -88,34 +118,37 @@ canvas.grid(row=0, column=1)
 
 # labels
 label_website = Label(text="Website:")
-label_website.grid(row=1, column=0)
+label_website.grid(row=1, column=0, pady=7)
 
 label_email = Label(text="Email/Username:")
-label_email.grid(row=2, column=0)
+label_email.grid(row=2, column=0, pady=7)
 
 label_password = Label(text="Password:")
-label_password.grid(row=3, column=0)
+label_password.grid(row=3, column=0, pady=7)
 
 # enteries
 entry_website = Entry(width=21)
-entry_website.grid(row=1, column=1)
+entry_website.grid(row=1, column=1, pady=7)
 entry_website.focus()
 
 entry_email = Entry(width=35)
-entry_email.grid(row=2, column=1, columnspan=2)
+entry_email.grid(row=2, column=1, columnspan=2, pady=7)
 entry_email.insert(0, "sahilchanglani@gmail.com")
 
 entry_password = Entry(width=21)
-entry_password.grid(row=3, column=1)
+entry_password.grid(row=3, column=1, pady=7)
 
 # buttons
 button_password = Button(text="Generate Pass", command=generate_password)
-button_password.grid(row=3, column=2)
+button_password.grid(row=3, column=2, pady=7)
 
 button_add = Button(text="Add", width=36, command=save)
-button_add.grid(row=4, column=1, columnspan=2)
+button_add.grid(row=5, column=1, columnspan=2, pady=7)
 
 button_search = Button(text="Search", command=search)
-button_search.grid(row=1, column=2)
+button_search.grid(row=1, column=2, pady=7)
+
+button_strength = Button(text="Strength", command=password_check)
+button_strength.grid(row=4, column=2, pady=4)
 
 window.mainloop()
