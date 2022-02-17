@@ -1,8 +1,8 @@
 from tkinter import *
 from tkinter import messagebox
-from tkinter import simpledialog
 import pyperclip
 import json
+import math
 import re
 
 
@@ -31,11 +31,12 @@ def save():
     email = entry_email.get()
     password = entry_password.get()
     website = entry_website.get()
+    encoded = encrypt(password)
 
     data_dict = {
         website: {
             "email": email,
-            "password": password,
+            "password": encoded,
         }
     }
 
@@ -63,6 +64,7 @@ def save():
 
 def search():
     website = entry_website.get()
+
     try:
         with open("data.json", "r") as file:
             data = json.load(file)
@@ -73,7 +75,8 @@ def search():
         if website in data:
             email = data[website]["email"]
             password = data[website]["password"]
-            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}")
+            decoded = decrypt(password)
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {decoded}")
         else:
             messagebox.showerror(title="No data found", message=f"Data does not exist under '{website}' name")
 
@@ -104,6 +107,37 @@ def password_check():
         messagebox.showinfo(title='Password Strength', message=f"Password: {password}\nStrength: Medium🤓")
     else:
         messagebox.showinfo(title='Password Strength', message=f"Password: {password}\nStrength: Weak😟")
+
+
+def encrypt(msg: str):
+    COLUMNS = min(4, len(msg)//2-1)
+    ROWS = math.ceil(len(msg) / COLUMNS)
+
+    cipher = ''
+
+    for i in range(COLUMNS):
+        for j in range(ROWS):
+            idx = j*COLUMNS + i
+            if idx >= len(msg):
+                cipher += '_'
+            else:
+                cipher += msg[idx]
+
+    return cipher
+
+
+def decrypt(msg: str):
+    COLUMNS = min(4, len(msg)//2-1)
+    ROWS = math.ceil(len(msg) / COLUMNS)
+    original = ''
+
+    for i in range(ROWS):
+        for j in range(COLUMNS):
+            idx = j*ROWS + i
+            if msg[idx] != '_':
+                original += msg[idx]
+
+    return original
 
 
 window = Tk()
